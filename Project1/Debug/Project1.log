@@ -1,0 +1,4 @@
+﻿  Project1.cpp
+c:\users\friend\desktop\janggi\project1\project1\figures.h(57): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\project1.cpp(65): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Project1.vcxproj -> C:\Users\friend\Desktop\janggi\Project1\Debug\Project1.exe
