@@ -1,10 +1,2 @@
-﻿  stdafx.cpp
-  Debug.cpp
-  Figures.cpp
-c:\users\friend\desktop\janggi\project1\project1\figures.cpp(39): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Handler.cpp
-c:\users\friend\desktop\janggi\project1\project1\handler.cpp(53): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Project1.cpp
-  test.cpp
-  코드를 생성하고 있습니다...
+﻿  Main.cpp
   Project1.vcxproj -> C:\Users\friend\Desktop\janggi\Project1\Debug\Project1.exe

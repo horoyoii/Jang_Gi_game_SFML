@@ -152,6 +152,7 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Figures.h" />
     <ClInclude Include="Handler.h" />
+    <ClInclude Include="InfoBoard.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="test.h" />
@@ -160,7 +161,8 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Figures.cpp" />
     <ClCompile Include="Handler.cpp" />
-    <ClCompile Include="Project1.cpp" />
+    <ClCompile Include="InfoBoard.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

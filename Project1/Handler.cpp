@@ -1,14 +1,19 @@
 #include"stdafx.h"
+#include"Handler.h"
 /*
 * Created by horoyoii on 09.25.18
 */
 
 Handler::Handler() 
 :F(new Figures()){
-	window = new RenderWindow(VideoMode(1000, 900), "Jang-gi gazua");
+	window = new RenderWindow(VideoMode(1400, 1000), "Jang-gi gazua");
 }
 
 bool Handler::Initailize(){
+	// Load InfoBoard
+	//iBoard = new InfoBoard(window);
+
+
    // Entity Load
 	F->LoadImage();
 	F->SetPosition();
@@ -48,12 +53,11 @@ bool Handler::Running(){
 			// drag and drop
 			if (event.type == Event::MouseButtonPressed) {
 				if (event.key.code == Mouse::Left) {
-					cout << "Called ButtonPressed" << endl;
+					PrintForDebugging("Called ButtonPressed");
 
 					for (int i = 0; i < 32; i++) {
 						if (F->getFigures()[i].getGlobalBounds().contains(pos.x, pos.y)) { // 좌클릭 대상이 s인지를 확인
 																						  // getGlobalBounds().contains( x, y ) : Entity s의 모든 범위 좌표에 x, y가 속하는지 확인한다.
-							cout << "Called 2" << endl;
 							isMove = true;
 							nowClickedEntity = i;
 							dx = pos.x - F->getFigures()[i].getPosition().x; // getPosition 은 좌상단의 좌표를 반환한다.
@@ -67,6 +71,8 @@ bool Handler::Running(){
 			if (event.type == Event::MouseButtonReleased) {
 				if (event.key.code == Mouse::Left) {
 					isMove = false;
+					TuningPosition(nowClickedEntity);
+					PrintForCoord(F->getFigures()[nowClickedEntity].getPosition());
 				}
 			}
 
@@ -74,7 +80,7 @@ bool Handler::Running(){
 
 
 			if (isMove) { // drag 되는 과정
-				printf("%0.1f %0.1f\n", pos.x - dx, pos.y - dy);
+				//printf("%0.1f %0.1f\n", pos.x - dx, pos.y - dy);
 				F->getFigures()[nowClickedEntity].setPosition(pos.x - dx, pos.y - dy);
 			}
 
@@ -82,10 +88,19 @@ bool Handler::Running(){
 
 
 			ScreenRendering();
-
+			//iBoard->Rendering();
 		}
 	}
 	return true;
+}
+
+void Handler::TuningPosition(int nowClickedEntity){
+	
+	Vector2f p = F->getFigures()[nowClickedEntity].getPosition();
+	
+	Vector2f newPos = Vector2f(X_DISTANCE*int(p.x / X_DISTANCE)+X_DEFAULT, Y_DISTANCE*int(p.y/Y_DISTANCE) + Y_DEFAULT);
+	
+	F->getFigures()[nowClickedEntity].setPosition(newPos);
 }
 
 void Handler::ScreenRendering(){
@@ -93,7 +108,7 @@ void Handler::ScreenRendering(){
 	window->clear();
 	window->draw(*sboard);
 
-	for (int i = 0; i <= 15; i++) {
+	for (int i = 0; i <= 31; i++) {
 		window->draw(F->getFigures()[i]);
 	}
 	window->display();
