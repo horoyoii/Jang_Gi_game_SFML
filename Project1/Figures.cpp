@@ -75,3 +75,10 @@ void Figures::SetPosition(){
 Sprite* Figures::getFigures() {
 	return f;
 }
+
+Vector2f Figures::DisplayPositionToArrayPosition(int n){
+	Vector2f p = Vector2f(f[n].getPosition().x, f[n].getPosition().y);
+	Vector2f newPos = Vector2f(X_DISTANCE*int(p.x / X_DISTANCE) + X_DEFAULT, Y_DISTANCE*int(p.y / Y_DISTANCE) + Y_DEFAULT);
+	Vector2f ArrayPos = Vector2f((newPos.x - X_DEFAULT) / X_DISTANCE, (newPos.y - Y_DEFAULT) / Y_DISTANCE);
+	return ArrayPos;
+}

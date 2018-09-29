@@ -1,5 +1,6 @@
 #include"stdafx.h"
 #include"Handler.h"
+
 /*
 * Created by horoyoii on 09.25.18
 */
@@ -69,7 +70,7 @@ bool Handler::Running(){
 			}
 
 			if (event.type == Event::MouseButtonReleased) {
-				if (event.key.code == Mouse::Left) {
+				if (event.key.code == Mouse::Left && isMove) {
 					isMove = false;
 					TuningPosition(nowClickedEntity);
 					PrintForCoord(F->getFigures()[nowClickedEntity].getPosition());

@@ -1,11 +1,8 @@
 #include"stdafx.h"
 #include"InfoBoard.h"
+
 InfoBoard::InfoBoard(RenderWindow * window)
 :subWindow(window){
-	
-
-
-
 
 }
 
