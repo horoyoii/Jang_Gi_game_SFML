@@ -19,3 +19,5 @@ void PrintForCoord(Vector2f p) {
 	s += " ]";
 	cout << s << endl;
 }
+
+

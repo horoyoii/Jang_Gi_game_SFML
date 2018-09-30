@@ -63,6 +63,8 @@ bool Handler::Running(){
 							nowClickedEntity = i;
 							dx = pos.x - F->getFigures()[i].getPosition().x; // getPosition 은 좌상단의 좌표를 반환한다.
 							dy = pos.y - F->getFigures()[i].getPosition().y;
+							
+							F->SetOldPos(i);
 							break;
 						}
 					}
@@ -72,8 +74,17 @@ bool Handler::Running(){
 			if (event.type == Event::MouseButtonReleased) {
 				if (event.key.code == Mouse::Left && isMove) {
 					isMove = false;
-					TuningPosition(nowClickedEntity);
+					
+					// Entity의 위치에 대한 판단 ( 놓아도 되는 위치인지 아닌지 ) ===================================
+					if (F->CanMove(nowClickedEntity)) {
+						TuningPosition(nowClickedEntity);
+					}
+					else { // to the old position
+						F->ArrayPositionToDisplayPosition(nowClickedEntity);
+					}
+
 					PrintForCoord(F->getFigures()[nowClickedEntity].getPosition());
+					F->PrintBoard();
 				}
 			}
 
