@@ -35,7 +35,7 @@ bool Handler::Initailize(){
 bool Handler::Running(){
 	// Manage movement ========
 	bool isMove = false;
-	float dx = 0, dy = 0; // 일종의 조율자 역할?
+	float dx = 0, dy = 0; // 일종의 조율자 역할?!
 	int nowClickedEntity;
 	// ==============================================
 
@@ -51,35 +51,45 @@ bool Handler::Running(){
 			if (event.type == Event::Closed)
 				window->close();
 
-			// drag and drop
+			// drag and drop============================================
+			// Mouse Pressed
 			if (event.type == Event::MouseButtonPressed) {
 				if (event.key.code == Mouse::Left) {
 					PrintForDebugging("Called ButtonPressed");
 
 					for (int i = 0; i < 32; i++) {
-						if (F->getFigures()[i].getGlobalBounds().contains(pos.x, pos.y)) { // 좌클릭 대상이 s인지를 확인
-																						  // getGlobalBounds().contains( x, y ) : Entity s의 모든 범위 좌표에 x, y가 속하는지 확인한다.
-							isMove = true;
-							nowClickedEntity = i;
-							dx = pos.x - F->getFigures()[i].getPosition().x; // getPosition 은 좌상단의 좌표를 반환한다.
-							dy = pos.y - F->getFigures()[i].getPosition().y;
-							
-							F->SetOldPos(i);
-							break;
-						}
+						if (F->getFigures()[i].getLiveOrDead()) {
+							if (F->getFigures()[i].getGlobalBounds().contains(pos.x, pos.y)) { // 좌클릭 대상이 s인지를 확인
+								// ㄴgetGlobalBounds().contains( x, y ) : Entity의 모든 범위 좌표에 x, y가 속하는지 확인한다.
+								isMove = true;
+								nowClickedEntity = i;
+								dx = pos.x - F->getFigures()[i].getPosition().x; // getPosition 은 좌상단의 좌표를 반환한다.
+								dy = pos.y - F->getFigures()[i].getPosition().y;
+
+								F->SetOldPos(i);
+								break;
+							}
+						}	
 					}
 				}
 			}
 
+			// Now Dragging
+			if (isMove) { // drag 되는 과정
+				F->getFigures()[nowClickedEntity].setPosition(pos.x - dx, pos.y - dy);
+			}
+
+			// Mouse Released
 			if (event.type == Event::MouseButtonReleased) {
 				if (event.key.code == Mouse::Left && isMove) {
 					isMove = false;
 					
 					// Entity의 위치에 대한 판단 ( 놓아도 되는 위치인지 아닌지 ) ===================================
-					if (F->CanMove(nowClickedEntity)) {
+					if (F->CanMove(nowClickedEntity)) {	
 						TuningPosition(nowClickedEntity);
 					}
 					else { // to the old position
+						cout << '\a'; // Beep Sound
 						F->ArrayPositionToDisplayPosition(nowClickedEntity);
 					}
 
@@ -87,18 +97,6 @@ bool Handler::Running(){
 					F->PrintBoard();
 				}
 			}
-
-
-
-
-			if (isMove) { // drag 되는 과정
-				//printf("%0.1f %0.1f\n", pos.x - dx, pos.y - dy);
-				F->getFigures()[nowClickedEntity].setPosition(pos.x - dx, pos.y - dy);
-			}
-
-
-
-
 			ScreenRendering();
 			//iBoard->Rendering();
 		}
@@ -121,7 +119,8 @@ void Handler::ScreenRendering(){
 	window->draw(*sboard);
 
 	for (int i = 0; i <= 31; i++) {
-		window->draw(F->getFigures()[i]);
+		if(F->getFigures()[i].getLiveOrDead())	 // 살아있는 놈만 출력...!!
+			window->draw(F->getFigures()[i]);
 	}
 	window->display();
 

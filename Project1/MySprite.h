@@ -8,7 +8,10 @@
 class MySprite : public Sprite{
 private:
 	int indentifierNum;
+	bool LiveOrDead;
 public:
 	int GetIdentifierNum();
 	void SetIdentifierNum(int n);
+	bool getLiveOrDead();
+	void setLiveOrDead(bool state);
 };

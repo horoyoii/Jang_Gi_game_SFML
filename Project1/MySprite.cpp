@@ -12,3 +12,11 @@ int MySprite::GetIdentifierNum(){
 void MySprite::SetIdentifierNum(int n){
 	indentifierNum = n;
 }
+
+void MySprite::setLiveOrDead(bool state){
+	LiveOrDead = state;
+}
+
+bool MySprite::getLiveOrDead(){
+	return LiveOrDead;
+}

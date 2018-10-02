@@ -6,7 +6,9 @@
 
 
 Figures::Figures(){
-	
+	for (int i = 0; i < 32; i++) {
+		f[i].setLiveOrDead(true);
+	}
 }
 
 
@@ -102,7 +104,18 @@ bool Figures::CanMove(int n){
 	CurPos = DisplayPositionToArrayPosition(n);
 	cout <<n <<", "<<idNum << ", " << CurPos.x << ", " << CurPos.y << endl;
 	
+	if (idNum * board[int(CurPos.y)][int(CurPos.x)] > 1)  // 놓고자하는 위치에 아군 말이 있다면...
+		return false;
+
 	switch (idNum) {
+	case 1: // 한나라 차
+		if (!Cha_Moving())
+			return false;
+		break;
+	case -1:
+		if (!Cha_Moving())
+			return false;
+		break;
 	case 7: // 한나라 졸
 		if (oldPos.y < CurPos.y) {// 뒤로가면 안됨...
 			return false;
@@ -113,10 +126,26 @@ bool Figures::CanMove(int n){
 			return false;
 		}
 		break;
+	case 5: // 한나라 왕
+		if (CurPos.x >= 3 && CurPos.x <= 5 && CurPos.y <= 9 && CurPos.y >= 7) {
+
+		}
+		else
+			return false;
+		break;
+	case -5:  // 한나라 왕
+		if (CurPos.x >= 3 && CurPos.x <= 5 && CurPos.y <= 3 && CurPos.y >= 0) {
+
+		}
+		else
+			return false;
+		break;
 	}
 
 	// update board
 	 //TODO : 상대말을 잡는 경우 Board Update는 다르게 해야한다.
+
+
 	UpdateBoard();
 
 
@@ -125,5 +154,62 @@ bool Figures::CanMove(int n){
 
 
 void Figures::UpdateBoard() {
+	Vector2f EnemyPos;
+	Vector2f n = { CurPos.x, CurPos.y };
+
+	// Delete Enemy Entity =====================================================
+	if (board[int(CurPos.y)][int(CurPos.x)]) { // 상대말이 존재했던 경우
+		for (int i = 0; i < 32; i++) { // 그 말이 어떤 Sprite인지 탐색
+			EnemyPos = DisplayPositionToArrayPosition(i);
+			if (n == EnemyPos) {
+				f[i].setLiveOrDead(false);
+				break;
+			}
+		}
+	}
+	// ========================================================================
+
+
 	swap(board[int(oldPos.y)][int(oldPos.x)], board[int(CurPos.y)][int(CurPos.x)]);
+	board[int(oldPos.y)][int(oldPos.x)] = 0;
+}
+
+
+
+bool Figures::Cha_Moving() {
+	if (CurPos.x != oldPos.x && CurPos.y != oldPos.y)  // 직선이 아닌 경우
+		return false;
+	// 사이에 Entity가 존재하는 경우
+	if (CurPos.x == oldPos.x) {
+		if (CurPos.y > oldPos.y) {
+			for (int i = oldPos.y + 1; i < CurPos.y; i++) {
+				if (board[i][int(CurPos.x)]) // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					return false;
+			}
+		}
+		else {
+			for (int i = CurPos.y + 1; i < oldPos.y; i++) {
+				if (board[i][int(CurPos.x)]) // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					return false;
+			}
+		}
+	
+	}
+	else if (CurPos.y == oldPos.y) {
+		if (CurPos.x > oldPos.x) {
+			for (int i = oldPos.x + 1; i < CurPos.x; i++) {
+				if (board[int(CurPos.y)][i]) // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					return false;
+			}
+		}
+		else {
+			for (int i = CurPos.x + 1; i < oldPos.x; i++) {
+				if (board[int(CurPos.y)][i]) // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					return false;
+			}
+		}
+	
+	}
+	
+	return true;
 }

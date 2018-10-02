@@ -4,12 +4,6 @@
 * Created by horoyoii on 09.25.18
 */
 
-
-#define X_DISTANCE 105  // 엔티티 간 X축 거리
-#define Y_DISTANCE 95 // 엔티티 간 Y축 거리
-#define X_DEFAULT 55 // 여백 거리 계산
-#define Y_DEFAULT 30 // 여백 거리 계산
-
 class Figures {
 private:
 	int board[10][9] = {
@@ -42,6 +36,8 @@ public:
 
 	void UpdateBoard();
 
+
+	bool Cha_Moving();
 
 	void PrintBoard() {
 		for (int i = 0; i < 10; i++) {
