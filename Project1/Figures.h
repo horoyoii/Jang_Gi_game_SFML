@@ -23,6 +23,7 @@ private:
 	Texture Han_Entity[8];
 	Vector2f oldPos; // 움직임 전의 좌표
 	Vector2f CurPos;
+	int EndGameFlag; // 1 is Cho Win, -1 is Han Win, 0 means game still runs
 public:
 	Figures();
 	void LoadImage(); // 이미지 파일들을 로드하는 함수 ( Texture 변수에 전부 load )
@@ -35,7 +36,7 @@ public:
 	bool CanMove(int n);
 
 	void UpdateBoard();
-
+	int GameIsEnd();
 
 	bool Cha_Moving();
 

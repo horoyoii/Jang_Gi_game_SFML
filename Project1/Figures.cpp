@@ -162,7 +162,7 @@ void Figures::UpdateBoard() {
 		for (int i = 0; i < 32; i++) { // 그 말이 어떤 Sprite인지 탐색
 			EnemyPos = DisplayPositionToArrayPosition(i);
 			if (n == EnemyPos) {
-				f[i].setLiveOrDead(false);
+				EndGameFlag = f[i].setLiveOrDead(false);
 				break;
 			}
 		}
@@ -172,6 +172,10 @@ void Figures::UpdateBoard() {
 
 	swap(board[int(oldPos.y)][int(oldPos.x)], board[int(CurPos.y)][int(CurPos.x)]);
 	board[int(oldPos.y)][int(oldPos.x)] = 0;
+}
+
+int Figures::GameIsEnd(){
+	return EndGameFlag;
 }
 
 

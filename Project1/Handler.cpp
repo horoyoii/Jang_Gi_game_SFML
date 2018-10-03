@@ -37,6 +37,7 @@ bool Handler::Running(){
 	bool isMove = false;
 	float dx = 0, dy = 0; // 일종의 조율자 역할?!
 	int nowClickedEntity;
+	bool RunningStage = true;
 	// ==============================================
 
 
@@ -45,7 +46,7 @@ bool Handler::Running(){
 		Vector2i pos = Mouse::getPosition(*window); // window 상에서 현재의 mouse의 위치를 반환한다.
 
 		Event event;
-		while (window->pollEvent(event))
+		while (window->pollEvent(event) && RunningStage)
 		{
 			// close
 			if (event.type == Event::Closed)
@@ -99,8 +100,28 @@ bool Handler::Running(){
 			}
 			ScreenRendering();
 			//iBoard->Rendering();
+
+
+			// End Game ============================================
+			switch (F->GameIsEnd()) {
+			case -1:
+				PrintForDebugging("초나라 승리");
+				RunningStage = false;
+				break;
+			case 1:
+				PrintForDebugging("한나라 승리");
+				RunningStage = false;
+				break;
+			case 0:
+				break;
+			}
+
 		}
+
+
 	}
+
+
 	return true;
 }
 
@@ -114,10 +135,22 @@ void Handler::TuningPosition(int nowClickedEntity){
 }
 
 void Handler::ScreenRendering(){
+	// Display Text=================================================
+	Font font;
+	if (!font.loadFromFile("CuteFont.ttf"))
+	{
+		PrintForDebugging("font didn't be loaded");
+	}
+	Text text;
+	text.setString("Hello World");
+	text.setFont(font);
+	text.setPosition(1100, 100);
+	//==============================================================
+
 	// 화면 갱신 =============================================
 	window->clear();
 	window->draw(*sboard);
-
+	window->draw(text);
 	for (int i = 0; i <= 31; i++) {
 		if(F->getFigures()[i].getLiveOrDead())	 // 살아있는 놈만 출력...!!
 			window->draw(F->getFigures()[i]);

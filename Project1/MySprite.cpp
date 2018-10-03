@@ -6,15 +6,20 @@
 */
 
 int MySprite::GetIdentifierNum(){
-	return indentifierNum;
+	return identifierNum;
 }
 
 void MySprite::SetIdentifierNum(int n){
-	indentifierNum = n;
+	identifierNum = n;
 }
 
-void MySprite::setLiveOrDead(bool state){
+int MySprite::setLiveOrDead(bool state){
 	LiveOrDead = state;
+	if (identifierNum == 5) // if Han King is dead....
+		return 1;
+	else if (identifierNum == -5) // ÃÊ³ª¶ó ¿ÕÀÌ Áê±×¸é...
+		return -1;
+	return 0;
 }
 
 bool MySprite::getLiveOrDead(){
