@@ -12,7 +12,7 @@ Handler::Handler()
 
 bool Handler::Initailize(){
 	// Load InfoBoard
-	//iBoard = new InfoBoard(window);
+	iBoard = new InfoBoard(window);
 
 
    // Entity Load
@@ -135,27 +135,21 @@ void Handler::TuningPosition(int nowClickedEntity){
 }
 
 void Handler::ScreenRendering(){
-	// Display Text=================================================
-	Font font;
-	if (!font.loadFromFile("CuteFont.ttf"))
-	{
-		PrintForDebugging("font didn't be loaded");
-	}
-	Text text;
-	text.setString("Hello World");
-	text.setFont(font);
-	text.setPosition(1100, 100);
-	//==============================================================
+	// Board Update
+
 
 	// 화면 갱신 =============================================
+
+
 	window->clear();
 	window->draw(*sboard);
-	window->draw(text);
 	for (int i = 0; i <= 31; i++) {
 		if(F->getFigures()[i].getLiveOrDead())	 // 살아있는 놈만 출력...!!
 			window->draw(F->getFigures()[i]);
 	}
-	window->display();
+	iBoard->Rendering();
 
+	window->display();
+		
 }
 

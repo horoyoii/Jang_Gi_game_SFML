@@ -3,13 +3,18 @@
 
 InfoBoard::InfoBoard(RenderWindow * window)
 :subWindow(window){
-
+	font = new Font();
+	title = new Text();
+	font->loadFromFile("CuteFont.ttf");
+	title->setFont(*font);
+	title->setPosition(1100, 20);
+	title->setString("Hello world");
 }
 
-void InfoBoard::Rendering(){
-	Text text;
-	text.setPosition(1100, 100);
-	text.setString("Hello world");
 
-	subWindow->draw(text);
+void InfoBoard::Rendering() {
+
+
+	subWindow->draw(*title);
+
 }

@@ -39,7 +39,7 @@ public:
 	int GameIsEnd();
 
 	bool Cha_Moving();
-
+	bool Ma_Moving();
 	void PrintBoard() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -116,15 +116,25 @@ bool Figures::CanMove(int n){
 		if (!Cha_Moving())
 			return false;
 		break;
-	case 7: // 한나라 졸
-		if (oldPos.y < CurPos.y) {// 뒤로가면 안됨...
+	case -2: // 한나라 마
+		if (!Ma_Moving())
 			return false;
-		}
+		break;
+	case 2: // 초나라 마
+		if (!Ma_Moving())
+			return false;
+		break;
+	case 7: // 한나라 졸
+		if (oldPos.y < CurPos.y) // 뒤로가면 안됨...
+			return false;
+		if ((oldPos.y - CurPos.y + abs(CurPos.x - oldPos.x)) != 1) // 최대 한칸 움직여야 한다.
+			return false;
 		break;
 	case -7: // 초나라 졸
-		if (oldPos.y > CurPos.y) {
+		if (oldPos.y > CurPos.y ) 
 			return false;
-		}
+		if ((CurPos.y- oldPos.y + abs(CurPos.x - oldPos.x)) != 1) // 최대 한칸 움직여야 한다.
+			return false;
 		break;
 	case 5: // 한나라 왕
 		if (CurPos.x >= 3 && CurPos.x <= 5 && CurPos.y <= 9 && CurPos.y >= 7) {
@@ -143,12 +153,8 @@ bool Figures::CanMove(int n){
 	}
 
 	// update board
-	 //TODO : 상대말을 잡는 경우 Board Update는 다르게 해야한다.
-
 
 	UpdateBoard();
-
-
 	return true;
 }
 
@@ -216,4 +222,40 @@ bool Figures::Cha_Moving() {
 	}
 	
 	return true;
+}
+// 
+bool Figures::Ma_Moving(){
+	int dx = CurPos.x- oldPos.x;
+	int dy = CurPos.y- oldPos.y;
+	int weighted_value;
+	int d = pow(dx, 2.0) + pow(dy, 2.0); 
+	if (d == 5) {
+		// 사이에 값이 존재하지 않으면 갈 수 있다....
+		weighted_value = dx*10 + dy;
+		switch (weighted_value){
+		case -12:
+		case 8:
+			if (board[int(oldPos.y - 1)][int(oldPos.x)]) // 사이에 entity가 존재한다면
+				return false;
+			break;
+		case 19:
+		case 21:
+			if (board[int(oldPos.y)][int(oldPos.x+1)]) // 사이에 entity가 존재한다면
+				return false;
+			break;
+		case -8:
+		case 12:
+			if (board[int(oldPos.y + 1)][int(oldPos.x)]) // 사이에 entity가 존재한다면
+				return false;
+			break;
+		case -21:
+		case -19:
+			if (board[int(oldPos.y + 1)][int(oldPos.x-1)]) // 사이에 entity가 존재한다면
+				return false;
+			break;
+
+		}
+		return true;
+	}
+	return false;
 }

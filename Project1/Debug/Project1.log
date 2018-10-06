@@ -1,4 +1,12 @@
-﻿  Handler.cpp
-c:\users\friend\desktop\janggi\project1\project1\handler.cpp(63): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\friend\desktop\janggi\project1\project1\handler.cpp(132): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Figures.cpp
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(58): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(67): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(83): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(195): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(201): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(210): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(216): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(228): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(229): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\friend\desktop\janggi\project1\project1\figures.cpp(231): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Project1.vcxproj -> C:\Users\friend\Desktop\janggi\Project1\Debug\Project1.exe

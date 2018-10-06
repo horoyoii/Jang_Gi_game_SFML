@@ -1,6 +1,7 @@
 #pragma once
 #include"Figures.h"
 #include"Debug.h"
+#include"InfoBoard.h"
 /*
 * Created by horoyoii on 09.28.18
 */
@@ -10,7 +11,7 @@ private:
 	Figures *F;
 	RenderWindow *window;
 	Sprite *sboard;
-	//InfoBoard *iBoard;
+	InfoBoard *iBoard;
 
 public:
 	Handler();
