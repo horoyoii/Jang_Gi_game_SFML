@@ -11,6 +11,6 @@ private:
 public:
 	InfoBoard(RenderWindow* window);
 
-	void Rendering(bool WhoseTurn);
+	void Rendering(bool WhoseTurn, int CurTime);
 	void ScoreRendering(bool WhoseTurn);
 };

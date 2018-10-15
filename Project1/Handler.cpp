@@ -14,6 +14,7 @@ bool Handler::Initailize(){
 	// Load InfoBoard
 	iBoard = new InfoBoard(window);
 	Stage = RUNNING;
+	RunningTime = new myTime();
 
    // Entity Load
 	F->LoadImage();
@@ -118,8 +119,8 @@ bool Handler::Running(){
 
 		}
 
-		ScreenRendering();
-	
+		ScreenRendering(RunningTime->Update());
+		
 	
 	}
 
@@ -135,7 +136,7 @@ void Handler::TuningPosition(int nowClickedEntity){
 	F->getFigures()[nowClickedEntity].setPosition(newPos);
 }
 
-void Handler::ScreenRendering(){
+void Handler::ScreenRendering(int CurTime){
 	// Board Update ================================================
 	window->clear();
 	window->draw(*sboard);
@@ -147,7 +148,7 @@ void Handler::ScreenRendering(){
 	// infoBoard Update =============================================
 	switch (Stage){
 	case RUNNING:
-		iBoard->Rendering(WhoseTurn);
+		iBoard->Rendering(WhoseTurn, CurTime);
 		break;
 	case END:
 		iBoard->ScoreRendering(WhoseTurn);

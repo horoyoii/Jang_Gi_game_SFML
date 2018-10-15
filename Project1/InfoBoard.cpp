@@ -8,7 +8,7 @@ InfoBoard::InfoBoard(RenderWindow * window)
 	font->loadFromFile("CuteFont.ttf");
 
 	title->setFont(*font);
-	title->setPosition(1100, 20);
+	title->setPosition(1100, 10);
 	title->setString("Jang - gi ");
 	title->setCharacterSize(50);
 	turn = new Text();
@@ -16,16 +16,20 @@ InfoBoard::InfoBoard(RenderWindow * window)
 	turn->setPosition(1000, 200);
 	turn->setString("<< TURN");
 	
-
+	time = new Text();
+	time->setFont(*font);
+	time->setPosition(1170, 90);
 
 }
 
 
-void InfoBoard::Rendering(bool WhoseTurn) {
+void InfoBoard::Rendering(bool WhoseTurn, int CurTime) {
 	subWindow->draw(*title);
 	
+	// Draw Time
+	time->setString("Total Time : "+to_string(CurTime / 1000) + "."+to_string(CurTime % 1000));
+	subWindow->draw(*time);
 	// Draw Turn
-
 	if (WhoseTurn) 
 		turn->setPosition(1000, 200);
 	else 
