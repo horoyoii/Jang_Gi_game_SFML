@@ -6,7 +6,7 @@
 
 class Figures {
 private:
-	int board[10][9] = {
+	int board[10][9] = { 
 		{ -1, -2, -3, -4, 0, -4,-3,-2,-1 },
 	{ 0, 0, 0, 0, -5, 0, 0, 0, 0 },
 	{ 0, -6, 0, 0, 0, 0, 0, -6, 0 },
@@ -34,12 +34,14 @@ public:
 	void ArrayPositionToDisplayPosition(int n);
 	void SetOldPos(int n);
 	bool CanMove(int n);
-
-	void UpdateBoard();
+	bool WhoseEntity(int n); // 초나라의 말이면 return true
+	void UpdateBoard(int n);
 	int GameIsEnd();
 
 	bool Cha_Moving();
 	bool Ma_Moving();
+	bool Pho_Moving();
+
 	void PrintBoard() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 9; j++) {

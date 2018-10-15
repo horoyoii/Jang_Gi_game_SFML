@@ -7,8 +7,10 @@ private:
 	Text* time;
 	Font* font;
 	RenderWindow * subWindow;
+	Text* turn;
 public:
 	InfoBoard(RenderWindow* window);
 
-	void Rendering();
+	void Rendering(bool WhoseTurn);
+	void ScoreRendering(bool WhoseTurn);
 };

@@ -13,7 +13,7 @@ Handler::Handler()
 bool Handler::Initailize(){
 	// Load InfoBoard
 	iBoard = new InfoBoard(window);
-
+	Stage = RUNNING;
 
    // Entity Load
 	F->LoadImage();
@@ -37,7 +37,7 @@ bool Handler::Running(){
 	bool isMove = false;
 	float dx = 0, dy = 0; // 일종의 조율자 역할?!
 	int nowClickedEntity;
-	bool RunningStage = true;
+	WhoseTurn = true; // true : 초나라 차례 || false : 한나라 차례
 	// ==============================================
 
 
@@ -46,7 +46,7 @@ bool Handler::Running(){
 		Vector2i pos = Mouse::getPosition(*window); // window 상에서 현재의 mouse의 위치를 반환한다.
 
 		Event event;
-		while (window->pollEvent(event) && RunningStage)
+		while (window->pollEvent(event) && Stage == RUNNING)
 		{
 			// close
 			if (event.type == Event::Closed)
@@ -84,10 +84,12 @@ bool Handler::Running(){
 			if (event.type == Event::MouseButtonReleased) {
 				if (event.key.code == Mouse::Left && isMove) {
 					isMove = false;
-					
+					PrintForDebugging(to_string(F->WhoseEntity(nowClickedEntity)));
+					PrintForDebugging(to_string(WhoseTurn));
 					// Entity의 위치에 대한 판단 ( 놓아도 되는 위치인지 아닌지 ) ===================================
-					if (F->CanMove(nowClickedEntity)) {	
+					if (F->CanMove(nowClickedEntity) && F->WhoseEntity(nowClickedEntity) == WhoseTurn) {
 						TuningPosition(nowClickedEntity);
+						WhoseTurn = !WhoseTurn;
 					}
 					else { // to the old position
 						cout << '\a'; // Beep Sound
@@ -98,19 +100,17 @@ bool Handler::Running(){
 					F->PrintBoard();
 				}
 			}
-			ScreenRendering();
-			//iBoard->Rendering();
-
-
+			//ScreenRendering();
+			
 			// End Game ============================================
 			switch (F->GameIsEnd()) {
 			case -1:
+				Stage = END;
 				PrintForDebugging("초나라 승리");
-				RunningStage = false;
 				break;
 			case 1:
+				Stage = END;
 				PrintForDebugging("한나라 승리");
-				RunningStage = false;
 				break;
 			case 0:
 				break;
@@ -118,9 +118,10 @@ bool Handler::Running(){
 
 		}
 
-
+		ScreenRendering();
+	
+	
 	}
-
 
 	return true;
 }
@@ -135,21 +136,30 @@ void Handler::TuningPosition(int nowClickedEntity){
 }
 
 void Handler::ScreenRendering(){
-	// Board Update
-
-
-	// 화면 갱신 =============================================
-
-
+	// Board Update ================================================
 	window->clear();
 	window->draw(*sboard);
 	for (int i = 0; i <= 31; i++) {
-		if(F->getFigures()[i].getLiveOrDead())	 // 살아있는 놈만 출력...!!
+		if (F->getFigures()[i].getLiveOrDead())	 // 살아있는 놈만 출력...!!
 			window->draw(F->getFigures()[i]);
 	}
-	iBoard->Rendering();
 
+	// infoBoard Update =============================================
+	switch (Stage){
+	case RUNNING:
+		iBoard->Rendering(WhoseTurn);
+		break;
+	case END:
+		iBoard->ScoreRendering(WhoseTurn);
+
+		break;
+	default:
+		break;
+	}
+
+	// Display =========================================================
 	window->display();
+	
 		
 }
 

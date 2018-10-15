@@ -5,6 +5,14 @@
 *  Created by Horoyoii on 09.30.18
 */
 
+int MySprite::getCountingNum() {
+	return CountingNum;
+}
+
+void MySprite::setCountingNum(int n) {
+	CountingNum = n;
+}
+ 
 int MySprite::GetIdentifierNum(){
 	return identifierNum;
 }

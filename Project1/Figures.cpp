@@ -71,6 +71,9 @@ void Figures::SetPosition(){
 			}
 		}
 	}
+	for (int i = 0; i < 32; i++) {
+		f[i].setCountingNum(i);
+	}
 }
 
 
@@ -104,7 +107,7 @@ bool Figures::CanMove(int n){
 	CurPos = DisplayPositionToArrayPosition(n);
 	cout <<n <<", "<<idNum << ", " << CurPos.x << ", " << CurPos.y << endl;
 	
-	if (idNum * board[int(CurPos.y)][int(CurPos.x)] > 1)  // 놓고자하는 위치에 아군 말이 있다면...
+	if (idNum * board[int(CurPos.y)][int(CurPos.x)] >= 1)  // 놓고자하는 위치에 아군 말이 있다면...
 		return false;
 
 	switch (idNum) {
@@ -122,6 +125,14 @@ bool Figures::CanMove(int n){
 		break;
 	case 2: // 초나라 마
 		if (!Ma_Moving())
+			return false;
+		break;
+	case 6:
+		if (!Pho_Moving())
+			return false;
+		break;
+	case -6:
+		if (!Pho_Moving())
 			return false;
 		break;
 	case 7: // 한나라 졸
@@ -151,21 +162,32 @@ bool Figures::CanMove(int n){
 			return false;
 		break;
 	}
-
 	// update board
 
-	UpdateBoard();
+	UpdateBoard(n);
 	return true;
 }
 
+bool Figures::WhoseEntity(int n){
+	if (f[n].GetIdentifierNum() < 0)
+		return true;
+	else 
+		return false;
+}
 
-void Figures::UpdateBoard() {
+
+void Figures::UpdateBoard(int nowClickedEntityIdx) {
 	Vector2f EnemyPos;
 	Vector2f n = { CurPos.x, CurPos.y };
+	Vector2f MovingEntityOriginalPos = { oldPos.x, oldPos.y };
+	
 
 	// Delete Enemy Entity =====================================================
 	if (board[int(CurPos.y)][int(CurPos.x)]) { // 상대말이 존재했던 경우
-		for (int i = 0; i < 32; i++) { // 그 말이 어떤 Sprite인지 탐색
+		for (int i = 0; i < 32; i++) { 
+			// 그 말이 어떤 Sprite인지 탐색
+			if (i == nowClickedEntityIdx)
+				continue;
 			EnemyPos = DisplayPositionToArrayPosition(i);
 			if (n == EnemyPos) {
 				EndGameFlag = f[i].setLiveOrDead(false);
@@ -176,6 +198,7 @@ void Figures::UpdateBoard() {
 	// ========================================================================
 
 
+	// 기물 이동
 	swap(board[int(oldPos.y)][int(oldPos.x)], board[int(CurPos.y)][int(CurPos.x)]);
 	board[int(oldPos.y)][int(oldPos.x)] = 0;
 }
@@ -258,4 +281,61 @@ bool Figures::Ma_Moving(){
 		return true;
 	}
 	return false;
+}
+
+bool Figures::Pho_Moving(){
+	if (abs(board[int(CurPos.y)][int(CurPos.x)]) == 6) // 포는 포를 못 잡는다.
+		return false;
+
+	int BetweenEntityCnt = 0;
+	int isPho;
+	if (CurPos.x != oldPos.x && CurPos.y != oldPos.y)  // 직선이 아닌 경우
+		return false;
+	if (CurPos.x == oldPos.x) { // 세로로 움직이는 경우
+		if (CurPos.y > oldPos.y) {
+			for (int i = oldPos.y + 1; i < CurPos.y; i++) {
+				if (isPho = board[i][int(CurPos.x)]) { // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					if (isPho == 6 || isPho == -6) // 포는 포를 못 넘는다.
+						return false;
+					BetweenEntityCnt++;
+				}
+			}
+		}
+		else {
+			for (int i = CurPos.y + 1; i < oldPos.y; i++) {
+				if (isPho = board[i][int(CurPos.x)]) { // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					if (isPho == 6 || isPho == -6)
+						return false;
+					BetweenEntityCnt++;
+				}
+			}
+		}
+
+	}
+	else if (CurPos.y == oldPos.y) {
+		if (CurPos.x > oldPos.x) {
+			for (int i = oldPos.x + 1; i < CurPos.x; i++) {
+				if (isPho = board[int(CurPos.y)][i]) { // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					if (isPho == 6 || isPho == -6)
+						return false;
+					BetweenEntityCnt++;
+				}
+			}
+		}
+		else {
+			for (int i = CurPos.x + 1; i < oldPos.x; i++) {
+				if (isPho = board[int(CurPos.y)][i]) { // 전부다 0이 아니라면 .... -> 사이에 값이 존재한다 -> 갈 수 없다.
+					if (isPho == 6 || isPho == -6)
+						return false;
+					BetweenEntityCnt++;
+				}
+			}
+		}
+
+	}
+
+	if (BetweenEntityCnt != 1)
+		return false;
+	
+	return true;
 }

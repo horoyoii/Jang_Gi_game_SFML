@@ -6,13 +6,18 @@
 * Created by horoyoii on 09.28.18
 */
 
+
+
+
+
 class Handler {
 private:
 	Figures *F;
 	RenderWindow *window;
 	Sprite *sboard;
 	InfoBoard *iBoard;
-
+	bool WhoseTurn;
+	STAGE Stage;
 public:
 	Handler();
 
