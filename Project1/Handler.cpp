@@ -50,7 +50,7 @@ bool Handler::Running(){
 	//=========================================================
 
 
-
+	PlaySound(TEXT("BGM.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP | SND_NODEFAULT);
 	while (window->isOpen())
 	{
 		Vector2i pos = Mouse::getPosition(*window); // window 상에서 현재의 mouse의 위치를 반환한다.
