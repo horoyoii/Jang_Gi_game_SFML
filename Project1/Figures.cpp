@@ -127,11 +127,19 @@ bool Figures::CanMove(int n){
 		if (!Ma_Moving())
 			return false;
 		break;
-	case 6:
+	case 3: // 초나라 상
+		if (!Sang_Moving())
+			return false;
+		break;
+	case -3: // 한나라 상
+		if (!Sang_Moving())
+			return false;
+		break;
+	case 6: // 초나라 포
 		if (!Pho_Moving())
 			return false;
 		break;
-	case -6:
+	case -6: // 한나라 포
 		if (!Pho_Moving())
 			return false;
 		break;
@@ -339,3 +347,10 @@ bool Figures::Pho_Moving(){
 	
 	return true;
 }
+
+bool Figures::Sang_Moving(){
+	return false;
+}
+
+
+

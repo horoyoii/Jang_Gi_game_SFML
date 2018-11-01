@@ -5,7 +5,8 @@ myTime::myTime(){
 	OldTime = clock();
 }
 
-int myTime::Update(){
+pair<int, int > myTime::Update(clock_t LimTime){
 	CurTime = clock() - OldTime;
-	return CurTime;
+
+	return make_pair(CurTime, LimTime);
 }

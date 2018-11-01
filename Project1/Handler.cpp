@@ -42,6 +42,15 @@ bool Handler::Running(){
 	// ==============================================
 
 
+	//=========================================================
+	// 통제권을 주고 받기 위한 time-out을 위한 변수 ( 한 수에 10초 )
+	clock_t oldTime = clock();
+	clock_t LimitedTime;
+
+	//=========================================================
+
+
+
 	while (window->isOpen())
 	{
 		Vector2i pos = Mouse::getPosition(*window); // window 상에서 현재의 mouse의 위치를 반환한다.
@@ -90,7 +99,10 @@ bool Handler::Running(){
 					// Entity의 위치에 대한 판단 ( 놓아도 되는 위치인지 아닌지 ) ===================================
 					if (F->CanMove(nowClickedEntity) && F->WhoseEntity(nowClickedEntity) == WhoseTurn) {
 						TuningPosition(nowClickedEntity);
+						LimitedTime = 0;
+						oldTime = clock();
 						WhoseTurn = !WhoseTurn;
+
 					}
 					else { // to the old position
 						cout << '\a'; // Beep Sound
@@ -101,8 +113,7 @@ bool Handler::Running(){
 					F->PrintBoard();
 				}
 			}
-			//ScreenRendering();
-			
+
 			// End Game ============================================
 			switch (F->GameIsEnd()) {
 			case -1:
@@ -119,7 +130,27 @@ bool Handler::Running(){
 
 		}
 
-		ScreenRendering(RunningTime->Update());
+		//------------------------------
+		/*
+		printf("%d \n", Limited_Time);
+		Limited_Time++;
+		*/
+
+		//  ===========================================
+		// Checking Time-out
+		
+		LimitedTime = clock() - oldTime; // curTime은 0 to 30 초를 잴 수 있게 된다.
+		//printf("%d\n", LimitedTime/1000);
+
+
+		if (LimitedTime  > 10000) {
+			LimitedTime = 0;
+			oldTime = clock();
+			WhoseTurn = !WhoseTurn;
+		}
+		
+		// TODO: Showing Limited_Time 
+		ScreenRendering(RunningTime->Update(LimitedTime));
 		
 	
 	}
@@ -136,7 +167,7 @@ void Handler::TuningPosition(int nowClickedEntity){
 	F->getFigures()[nowClickedEntity].setPosition(newPos);
 }
 
-void Handler::ScreenRendering(int CurTime){
+void Handler::ScreenRendering(pair<int, int> Times){
 	// Board Update ================================================
 	window->clear();
 	window->draw(*sboard);
@@ -148,7 +179,7 @@ void Handler::ScreenRendering(int CurTime){
 	// infoBoard Update =============================================
 	switch (Stage){
 	case RUNNING:
-		iBoard->Rendering(WhoseTurn, CurTime);
+		iBoard->Rendering(WhoseTurn, Times);
 		break;
 	case END:
 		iBoard->ScoreRendering(WhoseTurn);

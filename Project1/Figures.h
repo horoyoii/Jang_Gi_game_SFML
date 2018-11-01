@@ -41,6 +41,7 @@ public:
 	bool Cha_Moving();
 	bool Ma_Moving();
 	bool Pho_Moving();
+	bool Sang_Moving();
 
 	void PrintBoard() {
 		for (int i = 0; i < 10; i++) {
